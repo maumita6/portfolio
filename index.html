@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moumita Majumder — Digital Designer & Creative Director</title>
+    <meta name="description" content="Moumita Majumder is an award-winning digital designer and creative director crafting immersive web experiences for bold brands. Based in London, working globally.">
+    <meta name="keywords" content="web designer, creative director, UI/UX design, brand identity, digital experiences, portfolio">
+    <meta name="author" content="Moumita Majumder">
+    <meta property="og:title" content="Moumita Majumder — Product Designer">
+    <meta property="og:description" content="Crafting immersive digital experiences for bold brands.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://arisvane.com">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'void': '#0A0A0A',
+                        'cream': '#F0EBE3',
+                        'warm': '#C89B7B',
+                        'ash': '#6B6B6B',
+                        'smoke': '#1A1A1A',
+                    },
+                    fontFamily: {
+                        'display': ['Instrument Serif', 'serif'],
+                        'heading': ['Syne', 'sans-serif'],
+                        'body': ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ::selection {
+            background: #C89B7B;
+            color: #0A0A0A;
+        }
+
+        html {
+            scroll-behavior: auto;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: #0A0A0A;
+            color: #F0EBE3;
+            font-family: 'Outfit', sans-serif;
+            cursor: none;
+            overflow-x: hidden;
+        }
+
+        /* ─── Custom Cursor ─── */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: #C89B7B;
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 1.5px solid rgba(200, 155, 123, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 99998;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+        }
+
+        .cursor-ring.hover {
+            width: 70px;
+            height: 70px;
+            border-color: #C89B7B;
+        }
+
+        /* ─── Preloader ─── */
+        .preloader {
+            position: fixed;
+            inset: 0;
+            background: #0A0A0A;
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .preloader-text {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2rem, 6vw, 5rem);
+            color: #F0EBE3;
+            overflow: hidden;
+        }
+
+        .preloader-text span {
+            display: inline-block;
+            transform: translateY(100%);
+        }
+
+        .preloader-line {
+            width: 0;
+            height: 1px;
+            background: #C89B7B;
+            margin-top: 1.5rem;
+        }
+
+        .preloader-counter {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            color: #6B6B6B;
+            margin-top: 1.5rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ─── General ─── */
+        .line-mask {
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .line-mask > * {
+            display: inline-block;
+            transform: translateY(110%);
+        }
+
+        .section-divider {
+            height: 1px;
+            background: rgba(240, 235, 227, 0.08);
+            width: 100%;
+        }
+
+        /* ─── Hero ─── */
+        .hero-title-line {
+            overflow: hidden;
+            line-height: 1;
+        }
+
+        .hero-title-line span {
+            display: inline-block;
+            transform: translateY(105%);
+        }
+
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: rgba(240, 235, 227, 0.15);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #C89B7B;
+            animation: scrollDown 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollDown {
+            0% { top: -100%; }
+            50% { top: 100%; }
+            100% { top: 100%; }
+        }
+
+        /* ─── Marquee ─── */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* ─── Project Cards ─── */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card .project-image {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-card .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.4);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        /* ─── Magnetic Button ─── */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-fill {
+            position: absolute;
+            inset: 0;
+            background: #C89B7B;
+            border-radius: inherit;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .magnetic-btn:hover .btn-fill {
+            transform: scaleY(1);
+        }
+
+        /* ─── Horizontal Scroll Section ─── */
+        .horizontal-panel {
+            display: flex;
+            flex-wrap: nowrap;
+            height: 100vh;
+            width: max-content;
+        }
+
+        /* ─── Text Stroke ─── */
+        .text-stroke {
+            -webkit-text-stroke: 1.5px #F0EBE3;
+            color: transparent;
+            transition: color 0.4s ease, -webkit-text-stroke-color 0.4s ease;
+        }
+
+        .text-stroke:hover {
+            color: #F0EBE3;
+            -webkit-text-stroke-color: transparent;
+        }
+
+        /* ─── Noise Overlay ─── */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        /* ─── Service Item ─── */
+        .service-item {
+            border-bottom: 1px solid rgba(240, 235, 227, 0.08);
+            transition: background 0.4s ease;
+        }
+
+        .service-item:hover {
+            background: rgba(240, 235, 227, 0.03);
+        }
+
+        .service-item:hover .service-number {
+            color: #C89B7B;
+        }
+
+        .service-item:hover .service-arrow {
+            transform: translate(4px, -4px);
+            opacity: 1;
+        }
+
+        .service-arrow {
+            opacity: 0;
+            transform: translate(-4px, 4px);
+            transition: all 0.4s ease;
+        }
+
+        /* ─── Testimonial ─── */
+        .testimonial-card {
+            border: 1px solid rgba(240, 235, 227, 0.06);
+            transition: border-color 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(200, 155, 123, 0.3);
+        }
+
+        /* ─── Stats ─── */
+        .stat-item {
+            position: relative;
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            width: 1px;
+            background: rgba(240, 235, 227, 0.08);
+        }
+
+        .stat-item:last-child::after {
+            display: none;
+        }
+
+        /* ─── Footer Reveal ─── */
+        .footer-char {
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        .footer-char:hover {
+            color: #C89B7B;
+        }
+
+        /* ─── Smooth Image Parallax ─── */
+        .parallax-img {
+            will-change: transform;
+        }
+
+        /* ─── Media Queries ─── */
+        @media (max-width: 768px) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-ring { display: none; }
+        }
+
+        /* ─── Stagger Grid ─── */
+        .stagger-grid > * {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        /* ─── Nav ─── */
+        .nav-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #C89B7B;
+            transform: translateX(-101%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-link:hover::after {
+            transform: translateX(0);
+        }
+
+        /* ─── Image Reveal ─── */
+        .img-reveal {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .img-reveal::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #0A0A0A;
+            transform-origin: right;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- ═══════════════════ PRELOADER ═══════════════════ -->
+    <div class="preloader" aria-hidden="true">
+        <div class="preloader-text"><span>Moumita</span> <span>Majumder</span></div>
+        <div class="preloader-line"></div>
+        <div class="preloader-counter">000</div>
+    </div>
+
+    <!-- ═══════════════════ NAVIGATION ═══════════════════ -->
+    <nav class="fixed top-0 left-0 w-full z-[9999] mix-blend-difference" id="mainNav">
+        <div class="flex items-center justify-between px-6 md:px-12 py-6">
+            <a href="#" class="font-display text-xl text-cream tracking-tight" aria-label="Home">
+                Moumita Majumder<span class="text-warm">.</span>
+            </a>
+            <div class="hidden md:flex items-center gap-10">
+                <a href="#work" class="nav-link font-body text-sm text-cream/70 tracking-widest uppercase hover:text-cream transition-colors">Work</a>
+                <a href="#about" class="nav-link font-body text-sm text-cream/70 tracking-widest uppercase hover:text-cream transition-colors">About</a>
+                <a href="#services" class="nav-link font-body text-sm text-cream/70 tracking-widest uppercase hover:text-cream transition-colors">Services</a>
+                <a href="#contact" class="nav-link font-body text-sm text-cream/70 tracking-widest uppercase hover:text-cream transition-colors">Contact</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="hidden md:block font-body text-xs text-ash tracking-wider">OPEN TO WORK</span>
+                <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ═══════════════════ HERO ═══════════════════ -->
+        <header class="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-20 relative" id="hero">
+            <div class="max-w-[1600px] mx-auto w-full pt-24">
+                <p class="font-heading text-xs tracking-[0.35em] uppercase text-ash mb-8 line-mask" id="heroLabel">
+                    <span>PRODUCT DESIGNER</span>
+                </p>
+
+                <h1 class="font-display text-[clamp(3rem,9vw,10rem)] leading-[0.9] tracking-tight mb-12">
+                    <div class="hero-title-line"><span>I craft</span></div>
+                    <div class="hero-title-line"><span class="text-warm italic">digital</span></div>
+                    <div class="hero-title-line"><span>experiences</span></div>
+                </h1>
+
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mt-8">
+                    <p class="font-body text-cream/50 text-base md:text-lg max-w-md leading-relaxed line-mask" id="heroDesc">
+                        <span>Transforming ambitious visions into immersive digital realities. Strategy, design, and motion — woven into one seamless experience.</span>
+                    </p>
+
+                    <div class="flex items-center gap-12 font-body text-sm text-cream/40">
+                        <div class="stat-item pr-12">
+                            <div class="text-3xl md:text-4xl font-heading font-bold text-cream counter" data-target="147">0</div>
+                            <div class="mt-1 tracking-wider uppercase text-xs">Projects</div>
+                        </div>
+                        <div class="stat-item pr-12">
+                            <div class="text-3xl md:text-4xl font-heading font-bold text-cream counter" data-target="12">0</div>
+                            <div class="mt-1 tracking-wider uppercase text-xs">Awards</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="text-3xl md:text-4xl font-heading font-bold text-cream counter" data-target="8">0</div>
+                            <div class="mt-1 tracking-wider uppercase text-xs">Years</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-scroll-indicator">
+                <p class="font-body text-[10px] tracking-[0.3em] uppercase text-ash mb-3 text-center">Scroll</p>
+                <div class="scroll-line"></div>
+            </div>
+        </header>
+
+        <!-- ═══════════════════ MARQUEE ═══════════════════ -->
+        <section class="py-8 border-t border-b border-cream/[0.06] overflow-hidden" aria-hidden="true">
+            <div class="marquee-track">
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Web Design</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Brand Identity</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Motion Design</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Creative Direction</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">UI/UX Strategy</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Art Direction</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <!-- duplicate for seamless loop -->
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Web Design</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Brand Identity</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Motion Design</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Creative Direction</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">UI/UX Strategy</span>
+                <span class="text-warm text-lg px-4">✦</span>
+                <span class="font-display text-[clamp(1.5rem,3vw,2.5rem)] italic text-cream/10 whitespace-nowrap px-8">Art Direction</span>
+                <span class="text-warm text-lg px-4">✦</span>
+            </div>
+        </section>
+
+        <!-- ═══════════════════ ABOUT ═══════════════════ -->
+        <section id="about" class="py-32 md:py-48 px-6 md:px-12 lg:px-20" aria-labelledby="aboutTitle">
+            <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
+                <!-- Left Column -->
+                <div class="lg:col-span-5 relative">
+                    <div class="img-reveal rounded-sm" id="aboutImg">
+                        <div style="aspect-ratio: 3/4; background: #1a1714; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                            <!-- Artistic placeholder -->
+                            <svg viewBox="0 0 400 530" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
+                                <rect width="400" height="530" fill="#141210"/>
+                                <circle cx="200" cy="200" r="120" stroke="#C89B7B" stroke-width="0.5" opacity="0.3"/>
+                                <circle cx="200" cy="200" r="80" stroke="#C89B7B" stroke-width="0.5" opacity="0.2"/>
+                                <circle cx="200" cy="200" r="40" fill="#C89B7B" opacity="0.08"/>
+                                <line x1="80" y1="350" x2="320" y2="350" stroke="#F0EBE3" stroke-width="0.3" opacity="0.1"/>
+                                <text x="200" y="380" font-family="serif" font-size="11" fill="#F0EBE3" opacity="0.15" text-anchor="middle" letter-spacing="8">YOUR PHOTO HERE</text>
+                                <text x="200" y="400" font-family="serif" font-size="9" fill="#F0EBE3" opacity="0.1" text-anchor="middle" letter-spacing="4">500 × 670px</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 md:right-0 bg-smoke p-6 md:p-8" id="aboutBadge">
+                        <p class="font-heading text-xs tracking-[0.3em] uppercase text-warm">Based in</p>
+                        <p class="font-display text-2xl md:text-3xl italic text-cream mt-1">Kolkata / Bangalore, India</p>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="lg:col-span-6 lg:col-start-7 flex flex-col justify-center">
+                    <p class="font-heading text-xs tracking-[0.35em] uppercase text-warm mb-6" id="aboutTitle">About</p>
+                    <h2 class="font-display text-[clamp(2rem,4.5vw,4.5rem)] leading-[1.05] tracking-tight mb-8 about-reveal">
+                        Design is not what it looks like — it's how it <span class="italic text-warm">feels.</span>
+                    </h2>
+                    <div class="space-y-6 font-body text-cream/50 text-base leading-[1.8] about-reveal">
+                        <p>
+                            I'm Moumita Majumder — a digital designer and creative director obsessed with the intersection of aesthetics and function. For eight years, I've partnered with startups, agencies, and Fortune 500 brands to build digital experiences that don't just look beautiful — they convert, engage, and leave lasting impressions.
+                        </p>
+                        <p>
+                            My process is rooted in strategic thinking and refined through meticulous craft. Every pixel is intentional. Every interaction is choreographed. Every project is a chance to push what's possible in the browser.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-3 mt-10 about-reveal">
+                        <span class="font-body text-xs tracking-wider uppercase border border-cream/10 rounded-full px-5 py-2 text-cream/40">Figma</span>
+                        <span class="font-body text-xs tracking-wider uppercase border border-cream/10 rounded-full px-5 py-2 text-cream/40">Sketch</span>
+                        <span class="font-body text-xs tracking-wider uppercase border border-cream/10 rounded-full px-5 py-2 text-cream/40">React</span>
+                        <span class="font-body text-xs tracking-wider uppercase border border-cream/10 rounded-full px-5 py-2 text-cream/40">Angular</span>
+                        <span class="font-body text-xs tracking-wider uppercase border border-cream/10 rounded-full px-5 py-2 text-cream/40">Javascript</span>
+                        <span class="font-body text-xs tracking-wider uppercase border border-cream/10 rounded-full px-5 py-2 text-cream/40">CSS Frameworks</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider max-w-[1600px] mx-auto"></div>
+
+        <!-- ═══════════════════ SELECTED WORK ═══════════════════ -->
+        <section id="work" class="py-32 md:py-48 px-6 md:px-12 lg:px-20" aria-labelledby="workTitle">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-20">
+                    <div>
+                        <p class="font-heading text-xs tracking-[0.35em] uppercase text-warm mb-6" id="workTitle">Selected Work</p>
+                        <h2 class="font-display text-[clamp(2rem,4.5vw,4.5rem)] leading-[1.05] tracking-tight work-reveal">
+                            Projects that <span class="italic">speak</span><br>for themselves.
+                        </h2>
+                    </div>
+                    <!--<a href="#" class="magnetic-btn mt-8 md:mt-0 border border-cream/20 rounded-full px-8 py-4 font-heading text-xs tracking-[0.2em] uppercase text-cream relative overflow-hidden group">
+                        <span class="btn-fill"></span>
+                        <span class="relative z-10 group-hover:text-void transition-colors duration-500">View All Projects</span>
+                    </a>-->
+                </div>
+
+                <!-- Project Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 stagger-grid" id="projectGrid">
+                    <!-- Project 1 — Large -->
+                    <div class="project-card rounded-sm md:col-span-2 group" style="aspect-ratio: 21/9;">
+                        <div class="project-image w-full h-full" style="background:#141210;">
+                            <svg viewBox="0 0 1200 514" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+                                <rect width="1200" height="514" fill="#141210"/>
+                                <rect x="60" y="60" width="350" height="394" rx="4" fill="#1a1714"/>
+                                <rect x="440" y="60" width="350" height="190" rx="4" fill="#1a1714"/>
+                                <rect x="440" y="264" width="350" height="190" rx="4" fill="#1a1714"/>
+                                <rect x="820" y="60" width="320" height="394" rx="4" fill="#1a1714"/>
+                                <circle cx="235" cy="220" r="50" fill="#C89B7B" opacity="0.08"/>
+                                <text x="600" y="490" font-family="sans-serif" font-size="11" fill="#F0EBE3" opacity="0.08" text-anchor="middle" letter-spacing="6">PROJECT IMAGE</text>
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="w-full flex items-end justify-between">
+                                <div>
+                                    <p class="font-heading text-xs tracking-[0.25em] uppercase text-warm mb-2">Luminary Studios</p>
+                                    <h3 class="font-display text-3xl md:text-4xl italic text-cream">Brand & Web Redesign</h3>
+                                </div>
+                                <div class="w-12 h-12 rounded-full border border-cream/30 flex items-center justify-center">
+                                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-cream"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card rounded-sm group" style="aspect-ratio: 4/3;">
+                        <div class="project-image w-full h-full" style="background:#17140f;">
+                            <svg viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+                                <rect width="600" height="450" fill="#17140f"/>
+                                <rect x="50" y="50" width="500" height="280" rx="8" fill="#1a1714" stroke="#C89B7B" stroke-width="0.3" opacity="0.5"/>
+                                <circle cx="300" cy="190" r="60" stroke="#C89B7B" stroke-width="0.5" opacity="0.15"/>
+                                <text x="300" y="420" font-family="sans-serif" font-size="10" fill="#F0EBE3" opacity="0.08" text-anchor="middle" letter-spacing="5">PROJECT IMAGE</text>
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <div>
+                                <p class="font-heading text-xs tracking-[0.25em] uppercase text-warm mb-2">Novarc Architecture</p>
+                                <h3 class="font-display text-2xl md:text-3xl italic text-cream">Immersive Portfolio</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card rounded-sm group" style="aspect-ratio: 4/3;">
+                        <div class="project-image w-full h-full" style="background:#12130f;">
+                            <svg viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+                                <rect width="600" height="450" fill="#12130f"/>
+                                <path d="M150 350 L300 100 L450 350 Z" stroke="#C89B7B" stroke-width="0.5" fill="none" opacity="0.15"/>
+                                <path d="M200 320 L300 150 L400 320 Z" stroke="#C89B7B" stroke-width="0.3" fill="#C89B7B" opacity="0.04"/>
+                                <text x="300" y="420" font-family="sans-serif" font-size="10" fill="#F0EBE3" opacity="0.08" text-anchor="middle" letter-spacing="5">PROJECT IMAGE</text>
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <div>
+                                <p class="font-heading text-xs tracking-[0.25em] uppercase text-warm mb-2">Verdant Skincare</p>
+                                <h3 class="font-display text-2xl md:text-3xl italic text-cream">E-Commerce Experience</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="project-card rounded-sm group" style="aspect-ratio: 4/3;">
+                        <div class="project-image w-full h-full" style="background:#100f14;">
+                            <svg viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+                                <rect width="600" height="450" fill="#100f14"/>
+                                <rect x="140" y="100" width="320" height="200" rx="16" stroke="#C89B7B" stroke-width="0.5" fill="none" opacity="0.15"/>
+                                <rect x="170" y="130" width="260" height="140" rx="8" fill="#C89B7B" opacity="0.04"/>
+                                <text x="300" y="420" font-family="sans-serif" font-size="10" fill="#F0EBE3" opacity="0.08" text-anchor="middle" letter-spacing="5">PROJECT IMAGE</text>
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <div>
+                                <p class="font-heading text-xs tracking-[0.25em] uppercase text-warm mb-2">Flux Finance</p>
+                                <h3 class="font-display text-2xl md:text-3xl italic text-cream">Dashboard UI/UX</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 5 -->
+                    <div class="project-card rounded-sm group" style="aspect-ratio: 4/3;">
+                        <div class="project-image w-full h-full" style="background:#14110e;">
+                            <svg viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+                                <rect width="600" height="450" fill="#14110e"/>
+                                <ellipse cx="300" cy="200" rx="150" ry="100" stroke="#C89B7B" stroke-width="0.4" fill="none" opacity="0.12"/>
+                                <ellipse cx="300" cy="200" rx="100" ry="65" stroke="#C89B7B" stroke-width="0.3" fill="none" opacity="0.08"/>
+                                <text x="300" y="420" font-family="sans-serif" font-size="10" fill="#F0EBE3" opacity="0.08" text-anchor="middle" letter-spacing="5">PROJECT IMAGE</text>
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <div>
+                                <p class="font-heading text-xs tracking-[0.25em] uppercase text-warm mb-2">Onda Records</p>
+                                <h3 class="font-display text-2xl md:text-3xl italic text-cream">Music Platform</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════ PHILOSOPHY BANNER ═══════════════════ -->
+        <section class="py-32 md:py-40 px-6 md:px-12 lg:px-20 overflow-hidden">
+            <div class="max-w-[1600px] mx-auto text-center">
+                <h2 class="font-display text-[clamp(2.5rem,7vw,8rem)] leading-[0.95] tracking-tight philosophy-text">
+                    <span class="text-stroke block">Good design is</span>
+                    <span class="italic text-warm block">invisible.</span>
+                    <span class="text-stroke block">Great design is</span>
+                    <span class="italic text-cream block">unforgettable.</span>
+                </h2>
+            </div>
+        </section>
+
+        <!-- ═══════════════════ SERVICES ═══════════════════ -->
+        <section id="services" class="py-32 md:py-48 px-6 md:px-12 lg:px-20" aria-labelledby="servicesTitle">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
+                    <div class="lg:col-span-5">
+                        <p class="font-heading text-xs tracking-[0.35em] uppercase text-warm mb-6" id="servicesTitle">Services</p>
+                        <h2 class="font-display text-[clamp(2rem,4.5vw,4.5rem)] leading-[1.05] tracking-tight">
+                            What I <span class="italic">do.</span>
+                        </h2>
+                    </div>
+                    <div class="lg:col-span-6 lg:col-start-7 flex items-end">
+                        <p class="font-body text-cream/40 text-base leading-[1.8]">
+                            Every engagement begins with understanding your vision and ends with a digital experience that exceeds it. Here's how I can help.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border-t border-cream/[0.06]" id="servicesList">
+				<div class="service-item py-8 md:py-10 px-4 md:px-8 grid grid-cols-12 items-center gap-4 group cursor-pointer">
+                        <span class="service-number font-heading text-sm text-ash col-span-2 md:col-span-1 transition-colors">03</span>
+                        <h3 class="font-display text-2xl md:text-4xl col-span-8 md:col-span-5 tracking-tight">UI/UX Design</h3>
+                        <p class="hidden md:block font-body text-sm text-cream/30 col-span-4">User-centered design rooted in research, tested with real users, refined through iteration.</p>
+                        <div class="col-span-2 flex justify-end">
+                            <i data-lucide="arrow-up-right" class="service-arrow w-5 h-5 text-warm"></i>
+                        </div>
+                    </div>
+                    <!-- Service 1 -->
+                    <div class="service-item py-8 md:py-10 px-4 md:px-8 grid grid-cols-12 items-center gap-4 group cursor-pointer">
+                        <span class="service-number font-heading text-sm text-ash col-span-2 md:col-span-1 transition-colors">01</span>
+                        <h3 class="font-display text-2xl md:text-4xl col-span-8 md:col-span-5 tracking-tight">Web Design & Development</h3>
+                        <p class="hidden md:block font-body text-sm text-cream/30 col-span-4">Responsive, performant sites built from pixel-perfect designs with clean code and smooth interactions.</p>
+                        <div class="col-span-2 flex justify-end">
+                            <i data-lucide="arrow-up-right" class="service-arrow w-5 h-5 text-warm"></i>
+                        </div>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <!--<div class="service-item py-8 md:py-10 px-4 md:px-8 grid grid-cols-12 items-center gap-4 group cursor-pointer">
+                        <span class="service-number font-heading text-sm text-ash col-span-2 md:col-span-1 transition-colors">02</span>
+                        <h3 class="font-display text-2xl md:text-4xl col-span-8 md:col-span-5 tracking-tight">Brand Identity</h3>
+                        <p class="hidden md:block font-body text-sm text-cream/30 col-span-4">Comprehensive visual identities — from logo systems to brand guidelines that tell your story.</p>
+                        <div class="col-span-2 flex justify-end">
+                            <i data-lucide="arrow-up-right" class="service-arrow w-5 h-5 text-warm"></i>
+                        </div>
+                    </div>-->
+
+                    <!-- Service 3 -->
+                    
+
+                    <!-- Service 4 -->
+                    <!--<div class="service-item py-8 md:py-10 px-4 md:px-8 grid grid-cols-12 items-center gap-4 group cursor-pointer">
+                        <span class="service-number font-heading text-sm text-ash col-span-2 md:col-span-1 transition-colors">04</span>
+                        <h3 class="font-display text-2xl md:text-4xl col-span-8 md:col-span-5 tracking-tight">Motion & Interaction</h3>
+                        <p class="hidden md:block font-body text-sm text-cream/30 col-span-4">Choreographed animations and micro-interactions that bring interfaces to life with purpose.</p>
+                        <div class="col-span-2 flex justify-end">
+                            <i data-lucide="arrow-up-right" class="service-arrow w-5 h-5 text-warm"></i>
+                        </div>
+                    </div>-->
+
+                    <!-- Service 5 -->
+                   <!-- <div class="service-item py-8 md:py-10 px-4 md:px-8 grid grid-cols-12 items-center gap-4 group cursor-pointer">
+                        <span class="service-number font-heading text-sm text-ash col-span-2 md:col-span-1 transition-colors">05</span>
+                        <h3 class="font-display text-2xl md:text-4xl col-span-8 md:col-span-5 tracking-tight">Creative Direction</h3>
+                        <p class="hidden md:block font-body text-sm text-cream/30 col-span-4">End-to-end creative leadership for campaigns, product launches, and brand overhauls.</p>
+                        <div class="col-span-2 flex justify-end">
+                            <i data-lucide="arrow-up-right" class="service-arrow w-5 h-5 text-warm"></i>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider max-w-[1600px] mx-auto"></div>
+
+        <!-- ═══════════════════ TESTIMONIALS ═══════════════════ -->
+        <!--<section class="py-32 md:py-48 px-6 md:px-12 lg:px-20" aria-labelledby="testimonialsTitle">
+            <div class="max-w-[1600px] mx-auto">
+                <p class="font-heading text-xs tracking-[0.35em] uppercase text-warm mb-6" id="testimonialsTitle">Kind Words</p>
+                <h2 class="font-display text-[clamp(2rem,4.5vw,4.5rem)] leading-[1.05] tracking-tight mb-20">
+                    What clients <span class="italic">say.</span>
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 stagger-grid" id="testimonialGrid">
+                    <div class="testimonial-card rounded-sm p-8 md:p-10 bg-smoke/30">
+                        <div class="flex gap-1 mb-6">
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                        </div>
+                        <p class="font-body text-cream/50 text-sm leading-[1.8] mb-8">"Aris completely transformed how our brand shows up online. The attention to detail, the animations, the overall feel — it's on another level. Our conversion rate jumped 40% within the first month."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-warm/10 flex items-center justify-center">
+                                <span class="font-heading text-xs text-warm">SL</span>
+                            </div>
+                            <div>
+                                <p class="font-heading text-sm text-cream">Sarah Lin</p>
+                                <p class="font-body text-xs text-ash">CEO, Luminary Studios</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card rounded-sm p-8 md:p-10 bg-smoke/30">
+                        <div class="flex gap-1 mb-6">
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                        </div>
+                        <p class="font-body text-cream/50 text-sm leading-[1.8] mb-8">"Working with Aris felt like having a creative partner, not just a designer. He understood our vision instantly and pushed it further than we imagined. The site speaks for itself — we get compliments daily."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-warm/10 flex items-center justify-center">
+                                <span class="font-heading text-xs text-warm">MR</span>
+                            </div>
+                            <div>
+                                <p class="font-heading text-sm text-cream">Marcus Rivera</p>
+                                <p class="font-body text-xs text-ash">Founder, Novarc</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card rounded-sm p-8 md:p-10 bg-smoke/30">
+                        <div class="flex gap-1 mb-6">
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                            <i data-lucide="star" class="w-4 h-4 text-warm fill-warm"></i>
+                        </div>
+                        <p class="font-body text-cream/50 text-sm leading-[1.8] mb-8">"The most seamless design process I've ever been part of. Aris delivered a site that's not just beautiful — it's a revenue machine. Strategic, creative, and flawlessly executed."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-warm/10 flex items-center justify-center">
+                                <span class="font-heading text-xs text-warm">EK</span>
+                            </div>
+                            <div>
+                                <p class="font-heading text-sm text-cream">Elena Kovač</p>
+                                <p class="font-body text-xs text-ash">CMO, Verdant</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>-->
+
+        <!-- ═══════════════════ CTA / CONTACT ═══════════════════ -->
+        <section id="contact" class="py-32 md:py-48 px-6 md:px-12 lg:px-20 relative">
+            <div class="max-w-[1600px] mx-auto text-center">
+                <p class="font-heading text-xs tracking-[0.35em] uppercase text-warm mb-8">Let's Create Together</p>
+                <h2 class="font-display text-[clamp(2.5rem,7vw,8rem)] leading-[0.95] tracking-tight mb-12 cta-text">
+                    Have a project<br><span class="italic text-warm">in mind?</span>
+                </h2>
+                <a href="mailto:hello@arisvane.com" class="magnetic-btn inline-flex items-center gap-4 border border-cream/20 rounded-full px-12 py-6 font-heading text-sm tracking-[0.2em] uppercase text-cream relative overflow-hidden group">
+                    <span class="btn-fill"></span>
+                    <span class="relative z-10 group-hover:text-void transition-colors duration-500">Start a Conversation</span>
+                    <i data-lucide="arrow-right" class="relative z-10 w-5 h-5 group-hover:text-void transition-colors duration-500"></i>
+                </a>
+                <p class="font-body text-cream/30 text-sm mt-8">or email directly at <a href="mailto:maumita6@gmail.com" class="text-warm hover:text-cream transition-colors">maumita6@gmail.com</a></p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════════ FOOTER ═══════════════════ -->
+    <footer class="border-t border-cream/[0.06] px-6 md:px-12 lg:px-20 py-12">
+        <div class="max-w-[1600px] mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+                <div class="md:col-span-4">
+                    <span class="font-display text-2xl text-cream">Moumita Majumder<span class="text-warm">.</span></span>
+                    <p class="font-body text-sm text-cream/30 mt-4 leading-relaxed">Designing digital experiences<br>that brands are remembered for.</p>
+                </div>
+                <div class="md:col-span-3 md:col-start-6">
+                    <p class="font-heading text-xs tracking-[0.25em] uppercase text-ash mb-4">Navigation</p>
+                    <div class="flex flex-col gap-3">
+                        <a href="#work" class="font-body text-sm text-cream/50 hover:text-cream transition-colors">Work</a>
+                        <a href="#about" class="font-body text-sm text-cream/50 hover:text-cream transition-colors">About</a>
+                        <a href="#services" class="font-body text-sm text-cream/50 hover:text-cream transition-colors">Services</a>
+                        <a href="#contact" class="font-body text-sm text-cream/50 hover:text-cream transition-colors">Contact</a>
+                    </div>
+                </div>
+                <div class="md:col-span-3 md:col-start-10">
+                    <p class="font-heading text-xs tracking-[0.25em] uppercase text-ash mb-4">Connect</p>
+                    <div class="flex flex-col gap-3">
+                        <!--<a href="#" class="font-body text-sm text-cream/50 hover:text-warm transition-colors flex items-center gap-2">
+                            <i data-lucide="dribbble" class="w-4 h-4"></i> Dribbble
+                        </a>
+                        <a href="#" class="font-body text-sm text-cream/50 hover:text-warm transition-colors flex items-center gap-2">
+                            <i data-lucide="instagram" class="w-4 h-4"></i> Instagram
+                        </a>-->
+                        <a href="#" class="font-body text-sm text-cream/50 hover:text-warm transition-colors flex items-center gap-2">
+                            <i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn
+                        </a>
+                       <!-- <a href="#" class="font-body text-sm text-cream/50 hover:text-warm transition-colors flex items-center gap-2">
+                            <i data-lucide="twitter" class="w-4 h-4"></i> Twitter/X
+                        </a>-->
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row items-center justify-between mt-16 pt-8 border-t border-cream/[0.04]">
+                <p class="font-body text-xs text-cream/20">© 2026 Moumita Majumder. All rights reserved.</p>
+                <p class="font-body text-xs text-cream/20 mt-2 md:mt-0">Designed with obsessive attention to detail.</p>
+            </div>
+        </div>
+    </footer>
+
+  
+    <!-- ═══════════════════ STRUCTURED DATA ═══════════════════ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Moumita Majumder — Product Designer",
+        "description": "Digital designer crafting immersive web experiences.",
+        "url": "https://arisvane.com",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "London",
+            "addressCountry": "UK"
+        },
+        "sameAs": [
+            "https://dribbble.com/arisvane",
+            "https://instagram.com/arisvane",
+            "https://linkedin.com/in/arisvane"
+        ]
+    }
+    </script>
+
+    <!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // ─── Register GSAP plugins ───
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ─── Custom Cursor ───
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorRing = document.querySelector('.cursor-ring');
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            gsap.to(cursorDot, { x: mouseX, y: mouseY, duration: 0.1 });
+        });
+
+        function animateRing() {
+            ringX += (mouseX - ringX) * 0.12;
+            ringY += (mouseY - ringY) * 0.12;
+            cursorRing.style.transform = `translate(${ringX - 20}px, ${ringY - 20}px)`;
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+
+        // Hover effect on interactive elements
+        const hoverTargets = document.querySelectorAll('a, button, .project-card, .service-item, .magnetic-btn');
+        hoverTargets.forEach(el => {
+            el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
+        });
+
+        // ─── Magnetic Buttons ───
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.3, ease: 'power2.out' });
+            });
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+            });
+        });
+
+        // ─── PRELOADER ───
+        const preloader = document.querySelector('.preloader');
+        const preloaderChars = document.querySelectorAll('.preloader-text span');
+        const preloaderLine = document.querySelector('.preloader-line');
+        const preloaderCounter = document.querySelector('.preloader-counter');
+
+        const preloaderTl = gsap.timeline({
+            onComplete: () => {
+                initPageAnimations();
+            }
+        });
+
+        // Counter animation
+        let counterVal = { val: 0 };
+        preloaderTl
+            .to(preloaderChars, {
+                y: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: 'power3.out',
+            })
+            .to(preloaderLine, {
+                width: '120px',
+                duration: 1,
+                ease: 'power2.inOut',
+            }, '-=0.3')
+            .to(counterVal, {
+                val: 100,
+                duration: 1.5,
+                ease: 'power2.inOut',
+                onUpdate: () => {
+                    preloaderCounter.textContent = String(Math.round(counterVal.val)).padStart(3, '0');
+                }
+            }, '-=1')
+            .to(preloaderChars, {
+                y: -110,
+                duration: 0.6,
+                stagger: 0.05,
+                ease: 'power3.in',
+                delay: 0.3,
+            })
+            .to(preloaderLine, { width: 0, duration: 0.4, ease: 'power2.in' }, '-=0.4')
+            .to(preloaderCounter, { opacity: 0, duration: 0.3 }, '-=0.4')
+            .to(preloader, {
+                yPercent: -100,
+                duration: 1,
+                ease: 'power4.inOut',
+            })
+            .set(preloader, { display: 'none' });
+
+        // ─── PAGE ANIMATIONS (after preloader) ───
+        function initPageAnimations() {
+
+            // Hero title lines
+            gsap.to('.hero-title-line span', {
+                y: 0,
+                duration: 1.2,
+                stagger: 0.12,
+                ease: 'power4.out',
+            });
+
+            // Hero label
+            gsap.to('#heroLabel span', {
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out',
+                delay: 0.4,
+            });
+
+            // Hero description
+            gsap.to('#heroDesc span', {
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out',
+                delay: 0.6,
+            });
+
+            // Counter animation
+            document.querySelectorAll('.counter').forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                gsap.to(counter, {
+                    innerHTML: target,
+                    duration: 2,
+                    delay: 0.8,
+                    snap: 'innerHTML',
+                    ease: 'power2.out',
+                });
+            });
+
+            // Scroll indicator
+            gsap.from('.hero-scroll-indicator', {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                delay: 1.2,
+                ease: 'power2.out',
+            });
+
+            // ─── ABOUT SECTION ───
+            gsap.from('.about-reveal', {
+                scrollTrigger: {
+                    trigger: '#about',
+                    start: 'top 70%',
+                    toggleActions: 'play none none none',
+                },
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: 'power3.out',
+            });
+
+            // About image reveal
+            gsap.to('#aboutImg::after', {
+                scrollTrigger: {
+                    trigger: '#aboutImg',
+                    start: 'top 70%',
+                },
+            });
+
+            gsap.from('#aboutImg', {
+                scrollTrigger: {
+                    trigger: '#aboutImg',
+                    start: 'top 75%',
+                },
+                clipPath: 'inset(0 100% 0 0)',
+                duration: 1.2,
+                ease: 'power4.inOut',
+            });
+
+            gsap.from('#aboutBadge', {
+                scrollTrigger: {
+                    trigger: '#aboutBadge',
+                    start: 'top 85%',
+                },
+                scale: 0.8,
+                opacity: 0,
+                duration: 0.8,
+                delay: 0.5,
+                ease: 'power3.out',
+            });
+
+            // ─── WORK SECTION ───
+            gsap.from('.work-reveal', {
+                scrollTrigger: {
+                    trigger: '#work',
+                    start: 'top 70%',
+                },
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+            });
+
+            // Project cards stagger
+            gsap.to('#projectGrid > *', {
+                scrollTrigger: {
+                    trigger: '#projectGrid',
+                    start: 'top 75%',
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.12,
+                ease: 'power3.out',
+            });
+
+            // ─── PHILOSOPHY TEXT ───
+            gsap.from('.philosophy-text span', {
+                scrollTrigger: {
+                    trigger: '.philosophy-text',
+                    start: 'top 75%',
+                },
+                y: 80,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: 'power3.out',
+            });
+
+            // ─── SERVICES ───
+            gsap.from('#servicesList .service-item', {
+                scrollTrigger: {
+                    trigger: '#servicesList',
+                    start: 'top 70%',
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: 'power3.out',
+            });
+
+            // ─── TESTIMONIALS ───
+            gsap.to('#testimonialGrid > *', {
+                scrollTrigger: {
+                    trigger: '#testimonialGrid',
+                    start: 'top 75%',
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: 'power3.out',
+            });
+
+            // ─── CTA ───
+            gsap.from('.cta-text', {
+                scrollTrigger: {
+                    trigger: '.cta-text',
+                    start: 'top 75%',
+                },
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+            });
+
+            // ─── Parallax on project images ───
+            document.querySelectorAll('.project-card').forEach(card => {
+                gsap.to(card.querySelector('.project-image'), {
+                    yPercent: -8,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1,
+                    },
+                });
+            });
+
+            // ─── Nav hide/show on scroll ───
+            let lastScroll = 0;
+            const nav = document.getElementById('mainNav');
+
+            ScrollTrigger.create({
+                onUpdate: (self) => {
+                    const scrollY = window.scrollY;
+                    if (scrollY > lastScroll && scrollY > 100) {
+                        gsap.to(nav, { y: -100, duration: 0.4, ease: 'power2.out' });
+                    } else {
+                        gsap.to(nav, { y: 0, duration: 0.4, ease: 'power2.out' });
+                    }
+                    lastScroll = scrollY;
+                },
+            });
+        }
+
+        // ─── Smooth scroll for anchor links ───
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    gsap.to(window, {
+                        scrollTo: { y: target, offsetY: 80 },
+                        duration: 1.2,
+                        ease: 'power3.inOut',
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</body>
+</html>
